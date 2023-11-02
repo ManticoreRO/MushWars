@@ -11,7 +11,6 @@ namespace QDS.MushWars
         Intro,
         MissionSelect,
         Game,
-        PrepareWave,
         EndGame
     }
 
@@ -19,14 +18,24 @@ namespace QDS.MushWars
     {
         public static GameManager Instance;
 
+        public GameState DebugStart;
+
         [SerializeField] private Camera mainCamera;
         [SerializeField] private GameObject mainMenu;
         [SerializeField] private GameObject introScene;
+        [SerializeField] private SelectMission missionScreen;
+        [SerializeField] private GameObject playGame;
+
+        [SerializeField] private List<MissionConfig> missionData;
+        [SerializeField] private EntitiesData entitiesData;
 
         [SerializeField] private Material introSkyBox;
-
-        [SerializeField] private MissionManager missionManager;
+       
         private GameState _gameState;
+        private GameObject _activeScreen;
+
+        private PlayerState _playerState;
+
         private void Awake()
         {
             if (Instance==null)
@@ -42,15 +51,22 @@ namespace QDS.MushWars
 
         private void Start()
         {
-            _gameState = GameState.MainMenu;
+            _gameState = DebugStart;
+            _activeScreen = mainMenu;
 
             ExecuteState(_gameState);
         }
 
         public void ChangeState(GameState newState)
         {
+            _activeScreen?.SetActive(false);
             _gameState = newState;
             ExecuteState(_gameState);
+        }
+
+        public void SwitchCamera(bool ortho)
+        {
+            mainCamera.orthographic = ortho;
         }
 
         private void ExecuteState(GameState state)
@@ -58,26 +74,34 @@ namespace QDS.MushWars
             switch (state)
             {
                 case GameState.MainMenu:
-                    mainCamera.orthographic = true;                    
-                    mainMenu.SetActive(true);
+                    _activeScreen = mainMenu;
                     break;
                 case GameState.Intro:
-                    mainMenu.SetActive(false);
-                    mainCamera.orthographic = false;
-                    introScene.SetActive(true);
+                    _activeScreen = introScene;                    
                     break;
-                case GameState.MissionSelect:
-                    mainMenu.SetActive(false);
-                    introScene.SetActive(false);
-                    missionManager.Activate(true);
-                    break;
+                case GameState.MissionSelect:                    
+                    InitializeMissionScreen();
+                    _activeScreen = missionScreen.gameObject;                    
+                    break;                
                 case GameState.Game:
-                    break;
-                case GameState.PrepareWave:
-                    break;
-                case GameState.EndGame:
+                    _activeScreen = playGame;
+                    break;                
+                case GameState.EndGame:                    
                     break;
             }
-        }        
+
+            _activeScreen?.SetActive(true);
+        }
+
+        public EntitiesData GetEntities() => entitiesData;
+
+        private void InitializeMissionScreen()
+        {
+            missionScreen.SetMissionData(_playerState.CurrentMission, 
+                                         missionData[_playerState.CurrentMission].MissionName, 
+                                         missionData[_playerState.CurrentMission].MissionDescription);
+            missionScreen.SetWaveData(missionData[_playerState.CurrentMission].WavesAvailable, _playerState.CurrentSpores);
+            missionScreen.SetMushData(_playerState.UnlockedMushes);
+        }
     }
 }

@@ -19,6 +19,7 @@ namespace QDS.MushWars
         // Set up the initial variables
         void Setup()
         {
+            GameManager.Instance.SwitchCamera(false);
             isScrolling = true;
             rotation = gameObject.GetComponentInParent<Transform>().eulerAngles.x;
         }
@@ -45,7 +46,10 @@ namespace QDS.MushWars
             }
 
             if (!isScrolling)
+            {
+                GameManager.Instance.SwitchCamera(true);
                 GameManager.Instance.ChangeState(GameState.MissionSelect);
+            }
         }
     }
 }
