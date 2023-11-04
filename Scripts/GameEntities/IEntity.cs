@@ -9,6 +9,7 @@ namespace QDS.MushWars
         public void RemoveBehaviour(IBehaviour behaviour);
         public IBehaviour GetBehaviour(int id);
         public List<IBehaviour> FindBehaviours(Type type);
+        public void Update();
         public void OnInstantiate();        
         public void OnDestroy();
     }

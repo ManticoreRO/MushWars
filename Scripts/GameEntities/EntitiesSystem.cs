@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using UnityEngine;
 using VContainer.Unity;
 
 namespace QDS.MushWars
@@ -11,34 +12,53 @@ namespace QDS.MushWars
     {
         private readonly ICameraSystem _cameraSystem;
 
+        private List<IEntity> _entities = new List<IEntity>();
+
         public EntitiesSystem(ICameraSystem cameraSystem) 
         {
             _cameraSystem = cameraSystem;
         }
 
-        public void InitializeEntity()
+        public void AddEntity(IEntity entity)
         {
-            throw new NotImplementedException();
+            _entities.Add(entity);
         }
 
         public void DeleteAllEntities()
         {
-            throw new NotImplementedException();
+            foreach (var entity in _entities)
+            {
+                DeleteEntity(entity);
+            }
         }
 
-        public void DeleteEntity()
+        public void DeleteEntity(IEntity entity)
         {
-            throw new NotImplementedException();
+            if (entity == null) return;
+            if (_entities.Contains(entity))
+            {
+                entity.OnDestroy();
+                _entities.Remove(entity);
+            }
+            else
+            {
+                Debug.LogWarning($"{this} - Trying to remove non-existant entity!");
+            }
         }
        
-        public void UpdateEntity()
+        public void UpdateEntities()
         {
-            throw new NotImplementedException();
+            if (_entities.Count == 0) return;
+
+            foreach (var entity in _entities)
+            {
+                entity.Update();
+            }
         }
 
         public void Tick()
         {
-            //TODO: update all entities here
+            UpdateEntities();
         }
 
     }

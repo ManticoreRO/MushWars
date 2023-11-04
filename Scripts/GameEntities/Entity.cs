@@ -22,7 +22,7 @@ namespace QDS.MushWars
             if (behaviour == null) return;
             if (_behaviours.Contains(behaviour))
             {
-                _behaviours.Remove(behaviour);
+                _behaviours.Remove(behaviour);                
             }
             else
             {
@@ -48,6 +48,16 @@ namespace QDS.MushWars
 
         public virtual void OnInstantiate()
         {            
-        }        
+        }
+
+        public void Update()
+        {
+            if (_behaviours == null || _behaviours.Count == 0) return;
+
+            foreach (var behaviour in _behaviours)
+            {
+                behaviour.ApplyBehaviour();
+            }
+        }
     }
 }

@@ -2,9 +2,9 @@
 {
     internal interface IEntitiesSystem
     {
-        public void InitializeEntity();
-        public void UpdateEntity();
-        public void DeleteEntity();
+        public void AddEntity(IEntity entity);
+        public void UpdateEntities();
+        public void DeleteEntity(IEntity entity);
         public void DeleteAllEntities();
 
     }

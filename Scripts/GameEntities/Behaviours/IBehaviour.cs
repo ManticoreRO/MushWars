@@ -1,4 +1,6 @@
-﻿namespace QDS.MushWars
+﻿using System;
+
+namespace QDS.MushWars
 {
     internal interface IBehaviour
     {
