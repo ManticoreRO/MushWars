@@ -26,6 +26,8 @@ namespace QDS.MushWars
                 .WithParameter<ScreenConfig>(screenConfig);
             builder.Register<CameraSystem>(Lifetime.Singleton)
                 .As<ICameraSystem>();
+            builder.Register<EntitiesSystem>(Lifetime.Singleton)
+                .As<IEntitiesSystem>();
 
             builder.RegisterComponentInHierarchy<Camera>();
             builder.RegisterComponent<MainMenuScreen>(mainMenuScreen).As<Screen>();
