@@ -9,6 +9,6 @@ namespace QDS.MushWars
     {       
         public GeneralStats Stats;
         public Sprite Appearance;
-        public int MissionFirstAppearance;
+        public int MissionFirstAppearance;       
     }
 }

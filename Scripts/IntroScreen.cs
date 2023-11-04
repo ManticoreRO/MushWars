@@ -7,7 +7,7 @@ using System.Collections;
 **/
 namespace QDS.MushWars
 {
-    public class IntroScreen : MonoBehaviour
+    public class IntroScreen : Screen
     {
         private bool isScrolling; // We'll use this for debugging
         private float rotation;   // Default 55deg, but read in from canvas
@@ -16,10 +16,11 @@ namespace QDS.MushWars
         {
             Setup();
         }
+
         // Set up the initial variables
         void Setup()
         {
-            GameManager.Instance.SwitchCamera(false);
+            _cameraSystem.SwitchOrthographic(false);
             isScrolling = true;
             rotation = gameObject.GetComponentInParent<Transform>().eulerAngles.x;
         }
@@ -47,8 +48,8 @@ namespace QDS.MushWars
 
             if (!isScrolling)
             {
-                GameManager.Instance.SwitchCamera(true);
-                GameManager.Instance.ChangeState(GameState.MissionSelect);
+                _cameraSystem.SwitchOrthographic(true);                
+                _screenSystem.ShowScreen(GameScreens.SelectMission, true);
             }
         }
     }
