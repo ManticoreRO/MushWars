@@ -4,7 +4,7 @@ using UnityEngine;
 namespace QDS.MushWars
 {
     [Serializable]
-    public class GeneralStats
+    public class EntityStats
     {
         public string name;
         [Multiline]

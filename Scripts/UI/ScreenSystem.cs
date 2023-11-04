@@ -5,29 +5,41 @@ namespace QDS.MushWars
 {
     public abstract class Screen : MonoBehaviour
     {
+        internal IPlayerStateSystem _playerStateSystem;
         internal IScreenSystem _screenSystem;
         internal ICameraSystem _cameraSystem;
+        internal IEntitySystem _entitySystem;
 
-        public virtual void Initialize(IScreenSystem screenSystem, 
-                                       ICameraSystem cameraSystem) 
+        public virtual void Initialize(IPlayerStateSystem playerStateSystem,
+                                       IScreenSystem screenSystem, 
+                                       ICameraSystem cameraSystem,
+                                       IEntitySystem entitySystem) 
         {
+            _playerStateSystem = playerStateSystem;
             _screenSystem = screenSystem;
             _cameraSystem = cameraSystem;
+            _entitySystem = entitySystem;   
         }
     }
 
     public class ScreenSystem : IScreenSystem
     {
         private readonly ScreenConfig _screenConfig;
+        private readonly IPlayerStateSystem _playerStateSystem;
         private readonly ICameraSystem _cameraSystem;
+        private readonly IEntitySystem _entitySystem;
         
         private Stack<GameObject> _screens = new Stack<GameObject>();
 
         public ScreenSystem(ScreenConfig screenConfig, 
-                            ICameraSystem cameraSystem)
+                            ICameraSystem cameraSystem,
+                            IPlayerStateSystem playerStateSystem,
+                            IEntitySystem entitySystem)
         {
             _screenConfig = screenConfig;
             _cameraSystem = cameraSystem;
+            _playerStateSystem = playerStateSystem;
+            _entitySystem = entitySystem;
         }
 
         // We always close the topmost screen
@@ -86,7 +98,7 @@ namespace QDS.MushWars
                     break;
             }
 
-            s.Initialize(this, _cameraSystem);
+            s.Initialize(_playerStateSystem ,this, _cameraSystem, _entitySystem);
             _screens.Push(s.gameObject);
         }
     }

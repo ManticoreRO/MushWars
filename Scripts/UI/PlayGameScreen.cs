@@ -1,5 +1,6 @@
 using System.Collections;
 using System.Collections.Generic;
+using System.Linq;
 using UnityEngine;
 
 namespace QDS.MushWars
@@ -17,7 +18,9 @@ namespace QDS.MushWars
         [SerializeField] private GameObject EnemyPrefab;
 
         public void SpawnMush1()
-        {            
+        {
+            var randpos = Random.Range(0, mushSpawners.Count-1);
+            _entitySystem.AddEntity(new EntitySpawnData(SpriteTypes.Sprout, mushSpawners[randpos].position));
         }
         
         public void SpawnEnemy()
@@ -26,9 +29,15 @@ namespace QDS.MushWars
 
         void Start()
         {
-            var height = new Vector3(0, Camera.main.orthographicSize + 1, 0);
-            mushSpawnerParent.transform.position += height;
-            enemySpawnerParent.transform.position -= height;
+            var height = new Vector3(0, _cameraSystem.GetCameraOrtographicSize() + 1, 0);
+
+            mushSpawnerParent = GameObject.Find("MushParent").transform;
+            enemySpawnerParent = GameObject.Find("EnemyParent").transform;
+            mushSpawners = GameObject.Find("MushSpawners").transform.GetComponentsInChildren<Transform>().ToList();
+            enemySpawners = GameObject.Find("EnemySpawners").transform.GetComponentsInChildren<Transform>().ToList();
+
+            //mushSpawnerParent.transform.position += height;
+            //enemySpawnerParent.transform.position -= height;
         }
         
         void Update()

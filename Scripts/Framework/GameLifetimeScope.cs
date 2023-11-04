@@ -9,7 +9,9 @@ namespace QDS.MushWars
     public class GameLifetimeScope : LifetimeScope
     {
         [SerializeField] private ScreenConfig screenConfig;
+        [SerializeField] private SpawnerConfig spawnerConfig;
         [SerializeField] private Camera mainCamera;
+        // Prefabs
         [SerializeField] private MainMenuScreen mainMenuScreen;
         [SerializeField] private IntroScreen introScreen;
         [SerializeField] private SelectMissionScreen selectMissionScreen;
@@ -26,6 +28,11 @@ namespace QDS.MushWars
                 .WithParameter<ScreenConfig>(screenConfig);
             builder.Register<CameraSystem>(Lifetime.Singleton)
                 .As<ICameraSystem>();
+            builder.Register<EntitySystem>(Lifetime.Singleton)
+                .As<IEntitySystem>();
+            builder.Register<SpawnerSystem>(Lifetime.Transient)
+                .As<ISpawnerSystem>()                
+                .WithParameter(spawnerConfig);
 
             builder.RegisterComponentInHierarchy<Camera>();
             builder.RegisterComponent<MainMenuScreen>(mainMenuScreen).As<Screen>();

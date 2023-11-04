@@ -7,7 +7,7 @@ namespace QDS.MushWars
     [Serializable]
     public class MushroomData
     {
-        public MushroomConfig Config;
+        public EntityConfig Config;
         public bool Unlocked;
         public int Level;        
     }
