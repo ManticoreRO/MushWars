@@ -5,12 +5,15 @@ namespace QDS.MushWars
 {
     public abstract class Screen : MonoBehaviour
     {
+        internal IPlayerStateSystem _playerStateSystem;
         internal IScreenSystem _screenSystem;
         internal ICameraSystem _cameraSystem;
 
-        public virtual void Initialize(IScreenSystem screenSystem, 
+        public virtual void Initialize(IPlayerStateSystem playerStateSystem,
+                                       IScreenSystem screenSystem, 
                                        ICameraSystem cameraSystem) 
         {
+            _playerStateSystem = playerStateSystem;
             _screenSystem = screenSystem;
             _cameraSystem = cameraSystem;
         }
@@ -19,15 +22,18 @@ namespace QDS.MushWars
     public class ScreenSystem : IScreenSystem
     {
         private readonly ScreenConfig _screenConfig;
+        private readonly IPlayerStateSystem _playerStateSystem;
         private readonly ICameraSystem _cameraSystem;
         
         private Stack<GameObject> _screens = new Stack<GameObject>();
 
         public ScreenSystem(ScreenConfig screenConfig, 
-                            ICameraSystem cameraSystem)
+                            ICameraSystem cameraSystem,
+                            IPlayerStateSystem playerStateSystem)
         {
             _screenConfig = screenConfig;
             _cameraSystem = cameraSystem;
+            _playerStateSystem = playerStateSystem;
         }
 
         // We always close the topmost screen
@@ -86,7 +92,7 @@ namespace QDS.MushWars
                     break;
             }
 
-            s.Initialize(this, _cameraSystem);
+            s.Initialize(_playerStateSystem ,this, _cameraSystem);
             _screens.Push(s.gameObject);
         }
     }

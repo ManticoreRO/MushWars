@@ -14,13 +14,14 @@ namespace QDS.MushWars
 
         public void OnNewGame()
         {
-            var screenToShow = (GameOptions.ShowIntro) ? GameScreens.Intro : GameScreens.SelectMission;
+            var screenToShow = (_playerStateSystem.GetPlayerState().OptionSkipIntro) ? GameScreens.Intro : GameScreens.SelectMission;
             
             _screenSystem.ShowScreen(screenToShow);            
         }
 
         public void OnContinueGame()
         {
+            _playerStateSystem.Load();
             _screenSystem.ShowScreen(GameScreens.SelectMission);
         }
 
