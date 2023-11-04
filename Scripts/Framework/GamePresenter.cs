@@ -16,7 +16,7 @@ namespace QDS.MushWars
         
         public void Start()
         {
-            _screenSystem.ShowScreen(GameScreens.MainMenu, false);
+            _screenSystem.ShowScreen(GameScreens.PlayGame, false);
         }
     }
 }

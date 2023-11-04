@@ -1,6 +1,6 @@
 ﻿namespace QDS.MushWars
 {
-    internal interface IEntitiesSystem
+    public interface IEntitySystem
     {
         public void AddEntity(IEntity entity);
         public void UpdateEntities();

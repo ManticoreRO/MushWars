@@ -8,26 +8,27 @@ using VContainer.Unity;
 
 namespace QDS.MushWars
 {
-    internal class EntitiesSystem : IEntitiesSystem, ITickable
+    public class EntitySystem : IEntitySystem, ITickable
     {
-        private readonly ICameraSystem _cameraSystem;
+        private readonly ISpawnerSystem _spawnerSystem;
 
         private List<IEntity> _entities = new List<IEntity>();
 
-        public EntitiesSystem(ICameraSystem cameraSystem) 
+        public EntitySystem(ISpawnerSystem spawnerSystem)
         {
-            _cameraSystem = cameraSystem;
+            _spawnerSystem = spawnerSystem;
         }
 
         public void AddEntity(IEntity entity)
         {
             _entities.Add(entity);
+            _spawnerSystem.SpawnEntity(entity); 
         }
 
         public void DeleteAllEntities()
         {
             foreach (var entity in _entities)
-            {
+            {                
                 DeleteEntity(entity);
             }
         }
@@ -37,6 +38,7 @@ namespace QDS.MushWars
             if (entity == null) return;
             if (_entities.Contains(entity))
             {
+                _spawnerSystem.DestroyEntity(entity);
                 entity.OnDestroy();
                 _entities.Remove(entity);
             }
@@ -60,6 +62,5 @@ namespace QDS.MushWars
         {
             UpdateEntities();
         }
-
     }
 }

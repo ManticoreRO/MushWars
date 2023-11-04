@@ -3,8 +3,9 @@ using System.Collections.Generic;
 
 namespace QDS.MushWars
 {
-    internal interface IEntity
+    public interface IEntity
     {
+        public EntityTypes GetEntityType();
         public void AddBehaviour(IBehaviour behaviour);
         public void RemoveBehaviour(IBehaviour behaviour);
         public IBehaviour GetBehaviour(int id);

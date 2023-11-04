@@ -1,14 +1,14 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Diagnostics;
-using UnityEngine;
 using Debug = UnityEngine.Debug;
 
 namespace QDS.MushWars
 {
-    internal abstract class Entity : IEntity
+    public abstract class Entity : IEntity
     {
         private List<IBehaviour> _behaviours;
+        
+        public virtual EntityTypes GetEntityType() { return default; }
 
         public void AddBehaviour(IBehaviour behaviour)
         {

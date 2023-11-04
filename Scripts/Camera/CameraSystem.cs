@@ -29,5 +29,10 @@ namespace QDS.MushWars
         {
             _mainCamera.orthographic = value;
         }
+
+        public float GetCameraOrtographicSize()
+        {
+            return _mainCamera.orthographicSize;
+        }
     }
 }

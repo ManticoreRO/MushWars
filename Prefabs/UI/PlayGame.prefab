@@ -590,8 +590,8 @@ MonoBehaviour:
   m_OnClick:
     m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 0}
-        m_TargetAssemblyTypeName: QDS.MushWars.PlayGame, Assembly-CSharp
+      - m_Target: {fileID: 5520616666636763549}
+        m_TargetAssemblyTypeName: QDS.MushWars.PlayGameScreen, Assembly-CSharp
         m_MethodName: SpawnMush1
         m_Mode: 1
         m_Arguments:
