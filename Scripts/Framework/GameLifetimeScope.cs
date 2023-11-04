@@ -19,6 +19,8 @@ namespace QDS.MushWars
         {
             builder.RegisterEntryPoint<GamePresenter>();
 
+            builder.Register<PlayerStateSystem>(Lifetime.Singleton)
+                .As<IPlayerStateSystem>();
             builder.Register<ScreenSystem>(Lifetime.Singleton)
                 .As<IScreenSystem>()
                 .WithParameter<ScreenConfig>(screenConfig);
